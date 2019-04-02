@@ -57,13 +57,20 @@ public class Matrix {
         return c;
     }
 
-    public Matrix multiplyMatrices(Matrix b) {
-
-        private int getValue ( int[][] a, int[][] b, int x, int y){  //helping method; multiplies x raw of A and y column scalarwise
-            for (int i = 0; i < y; i++){               //CONTINUE HERE
-            }
+    private int getValue ( int[][] aArray, int[][] bArray, int x, int y){  //helping method; multiplies x raw of A and y column scalarwise
+        int result = 0;  //else compiler says: might not be initialized...
+        int c = 0;
+        int d = 0;
+        while (c < aArray.length) {
+            result += (aArray[c][y] * bArray[x][d]);
+            c++;
+            d++;
         }
 
+        return result;
+    }
+
+    public Matrix multiplyMatrices(Matrix b) {
 
         if(this.x_value != b.getY_value()){   //number of columns of A and number of rows in B must be the same value
             throw new IllegalArgumentException("Multiplication is not defined for these two matrices");
@@ -72,9 +79,10 @@ public class Matrix {
         int temp = 0; //scalar temp variable
         for(int i = 0; i < c.getY_value(); i++){
             for(int j = 0; j < c.getX_value(); j++){
-                c.getMatrix()[j][i] = temp;
+                c.getMatrix()[j][i] = getValue(this.getMatrix(), b.getMatrix(), j,i);
             }
         }
+        return c;
     }
 
     //setter and getter methods

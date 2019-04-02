@@ -8,7 +8,7 @@ public class Calculator {
         m2.fillMatrix();
         m1.printMatrix();
         m2.printMatrix();
-        Matrix m3 = m1.addMatrices(m2);
+        Matrix m3 = m1.multiplyMatrices(m2);
         m3.printMatrix();
     }
 }
