@@ -67,30 +67,13 @@ public class Matrix {
     }
 
     public Matrix addMatrices(Matrix ...b){  //actual problem: size of b doesnt decrease
-        /*
-        The problem is, that an array is a static data structure of course. So i can not change the size after
-        declaration.
-        So instead of using the old array b, I have to create a new one in every run
-
-        I will create a new Array temp after each run and fill if with one place less than in the run before
-         */
-
-        Matrix x = new Matrix();
-        while(b.length > 1){
-            System.out.println(b.length);
-            x.setMatrix(b[0].addMatrices(b[1]).getMatrix());
-            int h = 0;
-            Matrix[] temp = new Matrix[b.length-1];
-            for(int i = 2; i<b.length; i++){   //for loop isnt called
-                b[h] = temp[i];
-            }
-
-            for(Matrix z:b){   //testing
-                z.printMatrix();
-            }
-            addMatrices(temp);
+        for(Matrix x: b) {
+            this.setMatrix(this.addMatrices(x).getMatrix());
+            x.printMatrix();
         }
-        return x;
+
+        Matrix c = this;
+        return c;
     }
 
     private int getValue ( int[][] aArray, int[][] bArray, int x, int y){  //helping method; multiplies x raw of A and y column scalarwise
