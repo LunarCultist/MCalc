@@ -1,16 +1,39 @@
 //Done for #100DaysOfCode
 
-public class Calculator {
-    public static void main(String[] args) {
-        Matrix m1 = new Matrix(2,2);
-        Matrix m2 = new Matrix(2,2);
-        Matrix m3 = new Matrix(2,2);
-        m1.fillMatrix();
-        m2.fillMatrix();
-        m3.fillMatrix();
-        m1.addMatrices(m2, m3);
-        m1.printMatrix();
+import java.util.Scanner;
 
+public class Calculator {
+    private static Scanner scanner = new Scanner(System.in);
+    private static String operation;
+
+    static void showMenu(){
+        System.out.println("Welcome to MCalc\n" +
+                "Choose an operation from menu:\n\n" +
+                "1 - Add Matrices\n" +
+                "2 - Multiply Matrices\n" +
+                "3 - Exit\n\n");
+        operation = scanner.next();
+    }
+
+    public static void main(String[] args) {
+        showMenu();
+        switch(operation){
+            case "1":
+                //TO-DO
+                showMenu();
+                break;
+            case "2":
+                //TO-DO
+                showMenu();
+                break;
+            case "3":
+                System.exit(0);
+                break;
+
+                default:
+                    System.out.println("Wrong input!");
+                    break;
+        }
 
 
     }

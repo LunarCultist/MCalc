@@ -50,10 +50,6 @@ public class Matrix {
     }
 
     public Matrix addMatrices(Matrix b){   //add a second matrix b to the actual Matrix object
-        /*
-        implement a second Method for more than one matrix in the parameter list
-        addMatrices(Matrix b ...)
-         */
         if(this.getX_value() != b.getX_value() || this.getY_value() != b.getY_value()) {
             throw new IllegalArgumentException("dimensions are different. Not addable");
         }
@@ -69,10 +65,19 @@ public class Matrix {
     public Matrix addMatrices(Matrix ...b){  //actual problem: size of b doesnt decrease
         for(Matrix x: b) {
             this.setMatrix(this.addMatrices(x).getMatrix());
-            x.printMatrix();
+            x.printMatrix();  //for test
         }
 
-        Matrix c = this;
+        Matrix c = this; //improve!
+        return c;
+    }
+
+    public Matrix multiplyMatrices(Matrix ...b){
+        for(Matrix x: b){
+            this.setMatrix(this.multiplyMatrices(x).getMatrix());
+            x.printMatrix(); //for test
+        }
+        Matrix c = this;  //improve!
         return c;
     }
 
@@ -91,7 +96,6 @@ public class Matrix {
 
 
     public Matrix multiplyMatrices(Matrix b) {
-
         if(this.x_value != b.getY_value()){   //number of columns of A and number of rows in B must be the same value
             throw new IllegalArgumentException("Multiplication is not defined for these two matrices");
         }
