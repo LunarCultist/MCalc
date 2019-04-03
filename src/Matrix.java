@@ -8,11 +8,6 @@ public class Matrix {
     private boolean filled = false;
     private int[][] matrix;
 
-    /*
-    Methods:
-    - Matrix Addition
-    - Matrix Multiplicaton
-    */
 
     public void fillMatrix(){
         Scanner scanner = new Scanner(System.in);
@@ -26,6 +21,20 @@ public class Matrix {
         }
         this.setFilled(true);
         System.out.println("");
+    }
+
+
+    public void setMatrix(int[][] a){    //{{first line}, {second line}, {third line}}
+        if(a.length == this.x_value && a[0].length == this.y_value){
+            for(int i = 0 ; i < a.length ; i++){
+                for(int j = 0 ; j < a[0].length ; j++){
+                    this.matrix[j][i] = a[i][j];
+                }
+            }
+        }
+        else{
+            throw new IllegalArgumentException("Size of insertion and size of the matrix are not the same!");
+        }
     }
 
     public void printMatrix(){
@@ -57,6 +66,33 @@ public class Matrix {
         return c;
     }
 
+    public Matrix addMatrices(Matrix ...b){  //actual problem: size of b doesnt decrease
+        /*
+        The problem is, that an array is a static data structure of course. So i can not change the size after
+        declaration.
+        So instead of using the old array b, I have to create a new one in every run
+
+        I will create a new Array temp after each run and fill if with one place less than in the run before
+         */
+
+        Matrix x = new Matrix();
+        while(b.length > 1){
+            System.out.println(b.length);
+            x.setMatrix(b[0].addMatrices(b[1]).getMatrix());
+            int h = 0;
+            Matrix[] temp = new Matrix[b.length-1];
+            for(int i = 2; i<b.length; i++){   //for loop isnt called
+                b[h] = temp[i];
+            }
+
+            for(Matrix z:b){   //testing
+                z.printMatrix();
+            }
+            addMatrices(temp);
+        }
+        return x;
+    }
+
     private int getValue ( int[][] aArray, int[][] bArray, int x, int y){  //helping method; multiplies x raw of A and y column scalarwise
         int result = 0;  //else compiler says: might not be initialized...
         int c = 0;
@@ -69,6 +105,7 @@ public class Matrix {
 
         return result;
     }
+
 
     public Matrix multiplyMatrices(Matrix b) {
 
