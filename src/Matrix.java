@@ -37,6 +37,10 @@ public class Matrix {
         }
     }
 
+    public void setAt(int[][] a, int wert, int x, int y){   // 1 | 1  is position 0,0 in array...
+        a[x-1][y-1] = wert;
+    }
+
     public void printMatrix(){
         for(int i = 0; i < this.y_value ; i++){  //print line-wise
             for(int j = 0; j < this.x_value; j++){
@@ -62,23 +66,39 @@ public class Matrix {
         return c;
     }
 
-    public Matrix addMatrices(Matrix ...b){  //actual problem: size of b doesnt decrease
+    public Matrix addMatrices(Matrix ...b){
+        Matrix c = new Matrix(this.y_value, this.x_value);
         for(Matrix x: b) {
-            this.setMatrix(this.addMatrices(x).getMatrix());
-            x.printMatrix();  //for test
+            System.out.println("Matrix gerade ->");
+            x.printMatrix();
+            c.setMatrix(c.addMatrices(x).getMatrix());
         }
+        return c;
+    }
 
-        Matrix c = this; //improve!
+    public Matrix multiplyMatrices(Matrix b) {
+        if(this.x_value != b.getY_value()){   //number of columns of A and number of rows in B must be the same value
+            throw new IllegalArgumentException("Multiplication is not defined for these two matrices");
+        }
+        Matrix c = new Matrix(this.y_value, b.getX_value()); //matrix c with dimensions from A and B
+        int temp = 0; //scalar temp variable
+        for(int i = 0; i < c.getY_value(); i++){
+            for(int j = 0; j < c.getX_value(); j++){
+                //c.getMatrix()[j][i] = getValue(this.getMatrix(), b.getMatrix(), j,i);
+                System.out.println("Der Skalar:  " + getValue(this.getMatrix(), b.getMatrix(), j,i));
+                c.setAt(c.getMatrix(), getValue(this.getMatrix(), b.getMatrix(), j,i), j+1, i+1);
+            }
+        }
         return c;
     }
 
     public Matrix multiplyMatrices(Matrix ...b){
         for(Matrix x: b){
+            x.printMatrix();
             this.setMatrix(this.multiplyMatrices(x).getMatrix());
             x.printMatrix(); //for test
         }
-        Matrix c = this;  //improve!
-        return c;
+        return this;
     }
 
     private int getValue ( int[][] aArray, int[][] bArray, int x, int y){  //helping method; multiplies x raw of A and y column scalarwise
@@ -92,21 +112,6 @@ public class Matrix {
         }
 
         return result;
-    }
-
-
-    public Matrix multiplyMatrices(Matrix b) {
-        if(this.x_value != b.getY_value()){   //number of columns of A and number of rows in B must be the same value
-            throw new IllegalArgumentException("Multiplication is not defined for these two matrices");
-        }
-        Matrix c = new Matrix(this.y_value, b.getX_value()); //matrix c with dimensions from A and B
-        int temp = 0; //scalar temp variable
-        for(int i = 0; i < c.getY_value(); i++){
-            for(int j = 0; j < c.getX_value(); j++){
-                c.getMatrix()[j][i] = getValue(this.getMatrix(), b.getMatrix(), j,i);
-            }
-        }
-        return c;
     }
 
     //setter and getter methods
