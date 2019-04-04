@@ -7,9 +7,9 @@ import java.util.Scanner;
 public class Calculator {
     private static Scanner scanner = new Scanner(System.in);
     private static String operation;
-    private static List<Matrix> MatrixList = new ArrayList<Matrix>();
+    private static List<Matrix> MatrixList = new ArrayList<>();
 
-    static void showMenu(){
+    private static void showMenu(){
         //System.out.print("\033[H\033[2J");   //actually commented for better controll
         //System.out.flush();
         System.out.println("Welcome to MCalc\n" +
@@ -23,9 +23,8 @@ public class Calculator {
     }
 
     private static void insertMatrix(){  //create an arraylist -> dynamic with all created matrices for better comfort
-        int number = 0;
         System.out.println("How many matrices do you wanna insert?");
-        number = scanner.nextInt();   //verify that the input is correct with try catch for error in for-loop
+        int number = scanner.nextInt();   //verify that the input is correct with try catch for error in for-loop
         for(int i = 0; i < number; i++){
             Matrix m = new Matrix();
             m.fillMatrix();
