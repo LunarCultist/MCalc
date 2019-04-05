@@ -1,4 +1,9 @@
 //Done for #100DaysOfCode
+/**
+ * @author LunarCultist
+ * In this class matrices and basic matrix operations are defined.
+ */
+
 import java.util.Scanner;
 
 public class Matrix {
