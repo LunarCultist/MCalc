@@ -4,6 +4,7 @@
  * In this class matrices and basic matrix operations are defined.
  */
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Matrix {
@@ -17,13 +18,19 @@ public class Matrix {
     public void fillMatrix(){
         Scanner scanner = new Scanner(System.in);
         int temp;
-        for(int i = 0 ; i < this.y_value ; i++){
-            for(int j = 0 ; j < this.x_value ; j++){
-                System.out.println("Value at position " + "(" + (j+1) + " | " + (i+1) + ") = ?");
-                temp = scanner.nextInt();
-                this.matrix[j][i] = temp;
+        try{
+            for(int i = 0 ; i < this.y_value ; i++){
+                for(int j = 0 ; j < this.x_value ; j++){
+                    System.out.println("Value at position " + "(" + (j+1) + " | " + (i+1) + ") = ?");
+                    temp = scanner.nextInt();
+                    this.matrix[j][i] = temp;
+                }
             }
+        } catch(InputMismatchException e){
+            System.out.println("Wrong input!");
+            this.fillMatrix();
         }
+
         this.setFilled(true);
         System.out.println("");
     }
@@ -55,7 +62,6 @@ public class Matrix {
             }
             System.out.println("\n");  //new line
         }
-        System.out.println("\n");
     }
 
     public Matrix addMatrices(Matrix b){   //add a second matrix b to the actual Matrix object
@@ -74,8 +80,6 @@ public class Matrix {
     public Matrix addMatrices(Matrix ...b){
         Matrix c = new Matrix(this.y_value, this.x_value);
         for(Matrix x: b) {
-            System.out.println("Matrix gerade ->");
-            x.printMatrix();
             c.setMatrix(c.addMatrices(x).getMatrix());
         }
         return c;
@@ -89,7 +93,6 @@ public class Matrix {
         int temp = 0; //scalar temp variable
         for(int i = 0; i < c.getY_value(); i++){
             for(int j = 0; j < c.getX_value(); j++){
-                //c.getMatrix()[j][i] = getValue(this.getMatrix(), b.getMatrix(), j,i);
                 System.out.println("Der Skalar:  " + getValue(this.getMatrix(), b.getMatrix(), j,i));
                 c.setAt(c.getMatrix(), getValue(this.getMatrix(), b.getMatrix(), j,i), j+1, i+1);
             }
@@ -118,6 +121,7 @@ public class Matrix {
 
         return result;
     }
+
 
     //setter and getter methods
 

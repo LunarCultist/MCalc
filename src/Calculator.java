@@ -11,6 +11,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,15 +34,20 @@ public class Calculator {
         operation = scanner.next();
     }
 
-    private static void insertMatrix(){
+    private static void insertMatrix(){                                         //input verified!
         System.out.println("How many matrices do you wanna insert?");
-        int number = scanner.nextInt();         //verify, that the input is correct with try catch for error in for-loop
-        for(int i = 0; i < number; i++){
-            Matrix m = new Matrix();
-            m.fillMatrix();
-            MatrixList.add(m);
-            m.printMatrix();
-            System.out.println("was added");
+        if(scanner.hasNextInt()) {
+            int number = scanner.nextInt();
+            for(int i = 0; i < number; i++){
+                Matrix m = new Matrix();
+                m.fillMatrix();
+                MatrixList.add(m);
+                m.printMatrix();
+                System.out.println("was added");
+            }
+        }
+        else{
+            System.out.println("wrong input!");
         }
     }
 
@@ -58,67 +64,100 @@ public class Calculator {
         }
     }
 
-    private static void addition(){
+    private static void addition(){                                             //input verified
         //actually only for adding 2 matrices
+        /*
+        for multiple adding  I need to get user input which matrices i wanna add.
+        the user input will be parsed for correctness and then saved as a string.
+        in a for loop the string will be worked through from left to right and
+        after each loop run, the added character of the string will be deleted.
+        Also possible would be a second ArrayList with a copy of all matrices I
+        wanna add. It's maybe easier to implement and I dont need to write separate
+        methods.
+         */
         int a;
         int b;
-        System.out.println("Choose a matrix  A  for adding:");
-        a = scanner.nextInt();                                                      //implement checking for right input
-        System.out.println("Choose a matrix B for adding to Matrix A:");
-        b = scanner.nextInt();                                                      //implement checking for right input
-        Matrix matA = MatrixList.get(a);
-        Matrix matB = MatrixList.get(b);
-        Matrix c = matA.addMatrices(matB);
-        MatrixList.add(c);
-        c.printMatrix();
-        System.out.println("was added to matrix list at position -> M" + MatrixList.indexOf(c) + " into memory");
+        try{
+            System.out.println("Choose a matrix  A  for adding:");
+            a = scanner.nextInt();
+            System.out.println("Choose a matrix B for adding to Matrix A:");
+            b = scanner.nextInt();
+            Matrix matA = MatrixList.get(a);
+            Matrix matB = MatrixList.get(b);
+            Matrix c = matA.addMatrices(matB);
+            MatrixList.add(c);
+            c.printMatrix();
+            System.out.println("was added to matrix list at position -> M" + MatrixList.indexOf(c) + " into memory");
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("This matrix doesnt exist");
+        }
+        catch(InputMismatchException e){
+            System.out.println("Wrong input!");
+        }
     }
 
-    private static void multiplication(){
+    private static void multiplication(){                                       //input verified
         //actually only for multiplying 2 matrices
+        //for implementation ideas look at addition method
         int a;
         int b;
-        System.out.println("Choose a matrix A for multiplying:");
-        a = scanner.nextInt();                                      //implement checking of right input
-        System.out.println("Choose a matrix B you wanna multiply with A:");
-        b = scanner.nextInt();
-        Matrix matA = MatrixList.get(a);
-        Matrix matB = MatrixList.get(b);
-        Matrix c = matA.multiplyMatrices(matB);
-        MatrixList.add(c);
-        c.printMatrix();
-        System.out.println("was added to matrix list at position -> M" + MatrixList.indexOf(c) + " into memory ");
+        try{
+            System.out.println("Choose a matrix A for multiplying:");
+            a = scanner.nextInt();
+            System.out.println("Choose a matrix B you wanna multiply with A:");
+            b = scanner.nextInt();
+            Matrix matA = MatrixList.get(a);
+            Matrix matB = MatrixList.get(b);
+            Matrix c = matA.multiplyMatrices(matB);
+            MatrixList.add(c);
+            c.printMatrix();
+            System.out.println("was added to matrix list at position -> M" + MatrixList.indexOf(c) + " into memory ");
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("This matrix doesnt exist");
+        }
+        catch(InputMismatchException e){
+            System.out.println("Wrong input!");
+        }
     }
 
-    private static void deleteMatrix(){
+    private static void deleteMatrix(){                                         //input verified
+        //implement the opportunity to delete more than one memory entry at once
         int a;
         String sure;
         Matrix c;
-        System.out.println("Which matrix do you wanna delete (position required):");
-        a = scanner.nextInt();        //check for correct input
-        System.out.println("Do you really wanna remove matrix M" + a + " from memory? (y/N)");
-        sure = scanner.next();
-        switch (sure){
-            case "y":
-                c = MatrixList.get(a);
-                MatrixList.remove(a);
-                c.printMatrix();
-                System.out.println("was removed from memory");
-                break;
-            case "Y":
-                c = MatrixList.get(a);
-                MatrixList.remove(a);
-                c.printMatrix();
-                System.out.println("was removed from memory");
-            default:
-                break;
+        try{
+            System.out.println("Which matrix do you wanna delete (position required):");
+            a = scanner.nextInt();        //check for correct input
+            System.out.println("Do you really wanna remove matrix M" + a + " from memory? (y/N)");
+            sure = scanner.next();
+            switch (sure){
+                case "y":
+                    c = MatrixList.get(a);
+                    MatrixList.remove(a);
+                    c.printMatrix();
+                    System.out.println("was removed from memory");
+                    break;
+                case "Y":
+                    c = MatrixList.get(a);
+                    MatrixList.remove(a);
+                    c.printMatrix();
+                    System.out.println("was removed from memory");
+                default:
+                    break;
+            }
         }
+        catch (Exception e){
+            System.out.println("matrix at this position doesnt exist!");
+        }
+
     }
 
     public static void main(String[] args) {
         while(1>0){                                             //infinity loop for always coming back to the main menu
             showMenu();
-            switch(operation){                                  //really need to implement type test for every input, that no error or exception appears while using the UI
+            switch(operation){                                  //input verified
                 case "1":
                     showMemory();
                     break;
