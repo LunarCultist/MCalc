@@ -90,10 +90,9 @@ public class Matrix {
             throw new IllegalArgumentException("Multiplication is not defined for these two matrices");
         }
         Matrix c = new Matrix(this.y_value, b.getX_value()); //matrix c with dimensions from A and B
-        int temp = 0; //scalar temp variable
+        int temp = 0;
         for(int i = 0; i < c.getY_value(); i++){
             for(int j = 0; j < c.getX_value(); j++){
-                System.out.println("Der Skalar:  " + getValue(this.getMatrix(), b.getMatrix(), j,i));
                 c.setAt(c.getMatrix(), getValue(this.getMatrix(), b.getMatrix(), j,i), j+1, i+1);
             }
         }
@@ -111,14 +110,9 @@ public class Matrix {
 
     private int getValue ( int[][] aArray, int[][] bArray, int x, int y){  //helping method; multiplies x raw of A and y column scalarwise
         int result = 0;  //else compiler says: might not be initialized...
-        int c = 0;
-        int d = 0;
-        while (c < aArray.length) {
-            result += (aArray[c][y] * bArray[x][d]);
-            c++;
-            d++;
+        for(int i = 0; i < aArray.length; i++){
+            result += (aArray[i][y] * bArray[x][i]);
         }
-
         return result;
     }
 
